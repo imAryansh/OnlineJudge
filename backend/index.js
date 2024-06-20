@@ -1,29 +1,47 @@
-const express=require('express');
-const cors=require('cors');
+// const express=require('express');
+// const cors=require('cors');
+// const app=express();
+// const {DBConnection}=require('./database/db.js');
+// const User=require('./models/Users.js');
+// const bcrypt=require('bcryptjs');//to hash password
+// const jwt=require('jsonwebtoken');//for authentication
+// const dotenv=require('dotenv');
+// const cookieParser=require('cookie-parser');
+import express from "express";
+import cors from "cors";
 const app=express();
-// const mongoose=require('mongoose');
-const {DBConnection}=require('./database/db.js');
-const User=require('./models/Users.js');
-const bcrypt=require('bcryptjs');//to hash password
-const jwt=require('jsonwebtoken');//for authentication
-const dotenv=require('dotenv');
-const cookieParser=require('cookie-parser');
+import {DBConnection} from "./database/db.js";
+import User from "./models/Users.js";
+import bcrypt from "bcryptjs";//to hash password
+import jwt from "jsonwebtoken";//for authentication
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 dotenv.config();
+
+import bodyParser from "body-parser";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const parentDir = dirname(__dirname);
+
 
 //middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+// app.use(bodyParser.urlencoded({extended:true}));
 app.use(cors());
 app.use(cookieParser());
 
 DBConnection();
 
 app.get("/",(req,res)=>{
-    res.send("Hello,world");
+    // res.send("Hello,world");
+    // console.log(parentDir);
+    res.sendFile(parentDir+"/frontend/home/index.html");
 });
 
 app.post("/register",async(req,res)=>{
-    // console.log(req);
+    // console.log(req.body);
     try{
         //get all the data from request body
         const {firstname,lastname,email,password}=req.body;
@@ -34,7 +52,7 @@ app.post("/register",async(req,res)=>{
         }
 
         //check if user already exists(From Database)
-        const existingUser=await User.findOne({email});//NoSQL ODM ka kamal (no need to write query(findOne) and since findOne will take time so async and await is used)
+        const existingUser=await User.findOne({email});//NoSQL ODM(object Data Model) ka kamal (no need to write query(findOne) and since findOne will take time so async and await(promises)is used)
         if(existingUser){
             return res.status(400).send("User already exists!");
         }
@@ -56,6 +74,7 @@ app.post("/register",async(req,res)=>{
             ,{expiresIn:"1d"});
         user.token= token;//appended token to database
         user.password=undefined;//No need of password on frontend
+        
         res.status(400).json({
             message:"You have successfully registered! ",user});
     }
@@ -65,6 +84,7 @@ app.post("/register",async(req,res)=>{
 });
 
 app.post("/login", async (req, res) => {
+    // console.log(req.body);
     try {
         //get all the user data
         const { email, password } = req.body;
@@ -81,7 +101,7 @@ app.post("/login", async (req, res) => {
         }
 
         //match the password
-        const enteredPassword = await bcrypt.compare(password, user.password);
+        const enteredPassword = await bcrypt.compare(password, user.password);//compare the hashed password
         if (!enteredPassword) {
             return res.status(401).send("Password is incorrect");
         }

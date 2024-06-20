@@ -1,4 +1,5 @@
-const mongoose=require('mongoose');
+import mongoose from "mongoose";
+
 const userSchema=new mongoose.Schema({
     firstname:{
         type:String,
@@ -19,4 +20,5 @@ const userSchema=new mongoose.Schema({
     }
 });
 
-module.exports=mongoose.model('User',userSchema);//Make sure to write user in singular as it automatically write users on panel!
+// module.exports=mongoose.model('User',userSchema);//Make sure to write user in singular as it automatically write users on panel!
+export default mongoose.model('User', userSchema);

@@ -1,9 +1,15 @@
-// Problem.js
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import ProblemSet from './ProblemSet';
 import './Problems.css';
 
-const Problem = () => {
+const Problems = () => {
+    const navigate = useNavigate();
+
+    const handleRowClick = (id) => {
+        navigate(`/problem/${id}`);
+    };
+
     return (
         <div>
             <h1 className="heading">Coding Problems</h1>
@@ -18,7 +24,7 @@ const Problem = () => {
                 </thead>
                 <tbody>
                     {ProblemSet.map(problem => (
-                        <tr key={problem.Pid}>
+                        <tr key={problem.Pid} onClick={() => handleRowClick(problem.Pid)}>
                             <td>{problem.Pid}</td>
                             <td>{problem.Pname}</td>
                             <td>{problem.Pstatement}</td>
@@ -31,4 +37,4 @@ const Problem = () => {
     );
 };
 
-export default Problem;
+export default Problems;

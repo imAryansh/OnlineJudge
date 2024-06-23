@@ -1,4 +1,4 @@
-.table-container {
+/* .table-container {
     width: 100%;
     margin: 20px 0;
     font-size: 18px;
@@ -24,4 +24,24 @@
     margin: 20px 0;
     font-size: 24px;
     color: #333;
+} */
+
+.table-container {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
 }

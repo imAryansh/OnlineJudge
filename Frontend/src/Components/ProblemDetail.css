@@ -1,0 +1,24 @@
+.detail-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+}
+
+.detail-container h1 {
+    margin-bottom: 20px;
+}
+
+.detail-container p {
+    margin: 10px 0;
+}
+
+.detail-container a {
+    display: inline-block;
+    margin-top: 20px;
+    text-decoration: none;
+    color: #007BFF;
+}
+
+.detail-container a:hover {
+    text-decoration: underline;
+}

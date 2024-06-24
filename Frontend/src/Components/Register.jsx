@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Header from './Header';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -28,7 +29,7 @@ const Register = () => {
 
   return (
     <div>
-      <h1>Register</h1>
+      <Header content="Register"/>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Firstname: </label>

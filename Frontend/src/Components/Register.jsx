@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import api from './api';
 import Header from './Header';
+import Footer from './Footer';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -9,21 +11,32 @@ const Register = () => {
     email: '',
     password: ''
   });
+  const history = useNavigate();
   const [message, setMessage] = useState('');
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // console.log(formData);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/register', formData);
+      const response = await api.post('/register', formData);
       setMessage(response.data.message);
-      // Optionally, you can redirect the user to login after successful registration
-      // history.push('/login');
+      if (response.data.success) {
+        localStorage.setItem('token', response.data.token);
+        history.push('/login');
+      }
     } catch (error) {
-      setMessage('Registration failed. Please try again.');
+      if (error.response.status === 400) {
+        setMessage(error.response.data); 
+      } else {
+        setMessage('Registration failed. Please try again.'); 
+      }
+      console.error('Signup failed', error);
     }
   };
 
@@ -50,6 +63,7 @@ const Register = () => {
         <button type="submit">Register</button>
       </form>
       {message && <p>{message}</p>}
+      <Footer/>
     </div>
   );
 };

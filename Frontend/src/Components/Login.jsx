@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from './api';
 import Header from './Header';
+import { useNavigate } from 'react-router-dom';
+import Footer from './Footer';
+
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+  const history = useNavigate();
   const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
@@ -16,14 +20,19 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/login', formData, { withCredentials: true });
+      const response = await api.post('/login', formData);
       setMessage(response.data.message);
-      // Store the token in localStorage or cookies
-      localStorage.setItem('token', response.data.token);
-      // Optionally, redirect the user to another page after successful login
-      // history.push('/dashboard');
+      if (response.data.success) {
+        localStorage.setItem('token', response.data.token);
+        history.push('/');
+      }
     } catch (error) {
-      setMessage('Login failed. Please try again.');
+      if (error.response.status === 401) {
+        setMessage('Incorrect email or password');
+      } else {
+        setMessage('Login failed. Please try again.');
+      }
+      console.error('Login failed', error);
     }
   };
 
@@ -42,6 +51,7 @@ const Login = () => {
         <button type="submit">Login</button>
       </form>
       {message && <p>{message}</p>}
+      <Footer/>
     </div>
   );
 };

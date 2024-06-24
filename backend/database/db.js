@@ -11,6 +11,4 @@ const DBConnection=async()=>{
         console.log("Error connecting to MongoDB: "+error);
     }
 };
-//Dynamic and Default imports
-// module.exports={DBConnection};
 export { DBConnection };

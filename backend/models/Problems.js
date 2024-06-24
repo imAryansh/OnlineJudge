@@ -19,6 +19,4 @@ const problemSchema = new mongoose.Schema({
         required: true
     }
 });
-
-// module.exports = mongoose.model('Problem', problemSchema);
 export default mongoose.model('Problem', problemSchema);

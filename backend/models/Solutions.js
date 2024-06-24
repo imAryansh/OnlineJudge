@@ -16,5 +16,4 @@ const solutionSchema = new mongoose.Schema({
     }
 });
 
-// module.exports =mongoose.model('Solution', solutionSchema);
 export default mongoose.model('Solution', solutionSchema);

@@ -20,5 +20,4 @@ const userSchema=new mongoose.Schema({
     }
 });
 
-// module.exports=mongoose.model('User',userSchema);//Make sure to write user in singular as it automatically write users on panel!
-export default mongoose.model('User', userSchema);
+export default mongoose.model('User', userSchema);//Make sure to write user in singular as it automatically write users on panel!

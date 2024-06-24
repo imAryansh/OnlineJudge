@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 
 function CreateArea(props) {
-//   const [note, setNote] = useState({
-//     title: "",
-//     content: ""
-//   });
 const [note, setNote] = useState({
     title: "",
     content: "",
@@ -54,19 +50,6 @@ const [note, setNote] = useState({
           value={note.diff}
           placeholder="Difficulty"
         />
-        {/* <select
-        name="title"
-        onChange={handleChange}
-        value={note.title}
-        placeholder="Difficulty"
-      >
-        <option value="" disabled>
-          Select Difficulty
-        </option>
-        <option value="Easy">Easy</option>
-        <option value="Medium">Medium</option>
-        <option value="Hard">Hard</option>
-      </select> */}
         <button onClick={submitNote}>Add</button>
       </form>
     </div>

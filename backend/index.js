@@ -1,12 +1,3 @@
-// const express=require('express');
-// const cors=require('cors');
-// const app=express();
-// const {DBConnection}=require('./database/db.js');
-// const User=require('./models/Users.js');
-// const bcrypt=require('bcryptjs');//to hash password
-// const jwt=require('jsonwebtoken');//for authentication
-// const dotenv=require('dotenv');
-// const cookieParser=require('cookie-parser');
 import express from "express";
 import cors from "cors";
 const app=express();
@@ -24,24 +15,23 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const parentDir = dirname(__dirname);
 
-
-//middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-// app.use(bodyParser.urlencoded({extended:true}));
-app.use(cors());
+
+app.use(cors({
+    origin: 'http://localhost:5173',  // Adjust this to match your frontend URL
+    credentials: true,
+  }));
 app.use(cookieParser());
 
 DBConnection();
 
 app.get("/",(req,res)=>{
-    // res.send("Hello,world");
-    // console.log(parentDir);
-    res.sendFile(parentDir+"/frontend/home/index.html");
+    res.send("Welcome to my Server!This side Aryansh😎");
 });
 
 app.post("/register",async(req,res)=>{
-    // console.log(req.body);
+    console.log("Received registration request:", req.body);
     try{
         //get all the data from request body
         const {firstname,lastname,email,password}=req.body;
@@ -75,11 +65,21 @@ app.post("/register",async(req,res)=>{
         user.token= token;//appended token to database
         user.password=undefined;//No need of password on frontend
         
-        res.status(400).json({
-            message:"You have successfully registered! ",user});
+        // res.status(400).json({
+        //     message:"You have successfully registered! ",user});
+        res.status(200).cookie("token", token, {
+            expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000), // 1 day
+            httpOnly: true,
+          }).json({
+            message: "You have successfully registered!",
+            success: true,
+            token,
+          });
     }
     catch(error){
-        console.log(error);
+        // console.log(error);
+        console.error("Registration failed:", error);
+    res.status(500).send("Registration failed. Please try again.");
     }
 });
 

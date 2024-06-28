@@ -1,55 +1,40 @@
 import React, { useState } from "react";
 
 function CreateArea(props) {
-const [note, setNote] = useState({
-    title: "",
-    content: "",
-    diff:""
+  const [note, setNote] = useState({
+    problemId: "",
+    problemName: "",
+    problemStatement: "",
+    problemDifficulty: ""
   });
 
   function handleChange(event) {
     const { name, value } = event.target;
 
-    setNote(prevNote => {
-      return {
-        ...prevNote,
-        [name]: value
-      };
-    });
+    setNote(prevNote => ({
+      ...prevNote,
+      [name]: value
+    }));
   }
 
   function submitNote(event) {
+    event.preventDefault();
     props.onAdd(note);
     setNote({
-      title: "",
-      content: "",
-      diff:"",
+      problemId: "",
+      problemName: "",
+      problemStatement: "",
+      problemDifficulty: ""
     });
-    event.preventDefault();
   }
 
   return (
     <div>
       <form>
-        <input
-          name="title"
-          onChange={handleChange}
-          value={note.title}
-          placeholder="Problem Name"
-        />
-        <textarea
-          name="content"
-          onChange={handleChange}
-          value={note.content}
-          placeholder="Problem Statement"
-          rows="3"
-        />
-        <input
-          name="diff"
-          onChange={handleChange}
-          value={note.diff}
-          placeholder="Difficulty"
-        />
+        <input name="problemId" onChange={handleChange} value={note.problemId} placeholder="Problem ID (Optional)" />
+        <input name="problemName" onChange={handleChange} value={note.problemName} placeholder="Problem Name" />
+        <textarea name="problemStatement" onChange={handleChange} value={note.problemStatement} placeholder="Problem Statement" />
+        <input name="problemDifficulty" onChange={handleChange} value={note.problemDifficulty} placeholder="Difficulty" />
         <button onClick={submitNote}>Add</button>
       </form>
     </div>

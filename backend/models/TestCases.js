@@ -1,3 +1,4 @@
+// models/TestCases.js
 import mongoose from "mongoose";
 
 const testCaseSchema = new mongoose.Schema({
@@ -16,4 +17,4 @@ const testCaseSchema = new mongoose.Schema({
     }
 });
 
-export default mongoose.model('Testcase',testCaseSchema);
+export default mongoose.model('Testcase', testCaseSchema);

@@ -11,15 +11,12 @@ const Register = () => {
     email: '',
     password: ''
   });
-  const history = useNavigate();
+  const navigate = useNavigate();
   const [message, setMessage] = useState('');
-
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
-  // console.log(formData);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,13 +25,14 @@ const Register = () => {
       setMessage(response.data.message);
       if (response.data.success) {
         localStorage.setItem('token', response.data.token);
-        history.push('/login');
+        alert(response.data.message); // Show alert before redirecting
+        navigate('/login'); // Redirect to login page
       }
     } catch (error) {
-      if (error.response.status === 400) {
-        setMessage(error.response.data); 
+      if (error.response && error.response.status === 400) {
+        setMessage(error.response.data);
       } else {
-        setMessage('Registration failed. Please try again.'); 
+        setMessage('Registration failed. Please try again.');
       }
       console.error('Signup failed', error);
     }
@@ -42,7 +40,7 @@ const Register = () => {
 
   return (
     <div>
-      <Header content="Register"/>
+      <Header content="Register" />
       <form onSubmit={handleSubmit}>
         <div>
           <label>Firstname: </label>
@@ -63,7 +61,7 @@ const Register = () => {
         <button type="submit">Register</button>
       </form>
       {message && <p>{message}</p>}
-      <Footer/>
+      <Footer />
     </div>
   );
 };

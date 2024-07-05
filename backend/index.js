@@ -23,7 +23,7 @@ const parentDir = dirname(__dirname);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: 'http://localhost:5173', 
+    origin: 'http://localhost:5173',
     credentials: true,
 }));
 app.use(cookieParser());
@@ -170,21 +170,22 @@ const compileCode = (language, code, input) => {
     return new Promise((resolve, reject) => {
       const fileId = uuidv4();
       let sourceFile, execFile, command;
+      const inputFile = path.join(tempDir, `${fileId}.in`);
   
       switch (language) {
         case 'cpp':
           sourceFile = path.join(tempDir, `${fileId}.cpp`);
           execFile = path.join(tempDir, fileId);
-          command = `g++ ${sourceFile} -o ${execFile} && ${execFile}`;
+          command = `g++ ${sourceFile} -o ${execFile} && ${execFile} < ${inputFile}`;
           break;
         case 'java':
           sourceFile = path.join(tempDir, `${fileId}.java`);
           execFile = `java ${path.join(tempDir, fileId)}`;
-          command = `javac ${sourceFile} && ${execFile}`;
+          command = `javac ${sourceFile} && ${execFile} < ${inputFile}`;
           break;
         case 'python':
           sourceFile = path.join(tempDir, `${fileId}.py`);
-          command = `python ${sourceFile}`;
+          command = `python ${sourceFile} < ${inputFile}`;
           break;
         default:
           return reject(new Error('Unsupported language'));
@@ -195,21 +196,31 @@ const compileCode = (language, code, input) => {
         if (err) {
           return reject(err);
         }
-  
-        // Execute the command
-        exec(command, (error, stdout, stderr) => {
-          // Clean up the files
-          if (fs.existsSync(sourceFile)) {
-            fs.unlinkSync(sourceFile);
-          }
-          if (language !== 'python' && fs.existsSync(execFile)) {
-            fs.unlinkSync(execFile);
+
+        // Write the input to a file asynchronously
+        fs.writeFile(inputFile, input, (err) => {
+          if (err) {
+            return reject(err);
           }
   
-          if (error) {
-            return reject(new Error(stderr));
-          }
-          resolve(stdout);
+          // Execute the command
+          exec(command, (error, stdout, stderr) => {
+            // Clean up the files
+            if (fs.existsSync(sourceFile)) {
+              fs.unlinkSync(sourceFile);
+            }
+            if (fs.existsSync(inputFile)) {
+              fs.unlinkSync(inputFile);
+            }
+            if (language !== 'python' && fs.existsSync(execFile)) {
+              fs.unlinkSync(execFile);
+            }
+  
+            if (error) {
+              return reject(new Error(stderr));
+            }
+            resolve(stdout);
+          });
         });
       });
     });

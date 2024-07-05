@@ -1,0 +1,140 @@
+body {
+  background-color: #121212;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1f1f1f;
+  padding: 10px 20px;
+}
+
+.logo {
+  height: 50px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links li {
+  display: inline;
+}
+
+.nav-links a {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 10px 15px;
+  transition: background-color 0.3s;
+}
+
+.nav-links a:hover {
+  background-color: #333333;
+  border-radius: 5px;
+}
+
+.problem-list-container {
+  padding: 20px;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.search-input, .filter-select {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #2c2c2c;
+  color: #ffffff;
+}
+
+.problems-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.problems-table th, .problems-table td {
+  border: 1px solid #333333;
+  padding: 10px;
+  text-align: left;
+}
+
+.problem-row:hover {
+  background-color: #333333;
+  cursor: pointer;
+}
+
+   .problem-details-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.problem-details-left {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.compiler-section {
+    flex: 1;
+}
+
+.compiler-container {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.compiler-container form {
+    margin-bottom: 20px;
+}
+
+.compiler-container label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.compiler-container textarea {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.compiler-container button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.compiler-container button:hover {
+    background-color: #45a049;
+}
+
+.compiler-container .error {
+    color: red;
+    margin-top: 10px;
+}
+
+.compiler-container pre {
+    background-color: #f4f4f4;
+    padding: 10px;
+    border-radius: 5px;
+    white-space: pre-wrap;
+}
+
+

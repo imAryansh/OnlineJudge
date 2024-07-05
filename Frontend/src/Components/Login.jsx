@@ -10,7 +10,7 @@ const Login = () => {
     email: '',
     password: ''
   });
-  const history = useNavigate();
+  const navigate = useNavigate();
   const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
@@ -24,7 +24,7 @@ const Login = () => {
       setMessage(response.data.message);
       if (response.data.success) {
         localStorage.setItem('token', response.data.token);
-        history.push('/');
+        navigate('/Problems');
       }
     } catch (error) {
       if (error.response.status === 401) {

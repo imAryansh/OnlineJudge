@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import api from './api';
 import Header from './Header';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import Footer from './Footer';
 
 
@@ -51,9 +51,13 @@ const Login = () => {
         <button type="submit">Login</button>
       </form>
       {message && <p>{message}</p>}
+      <p>
+        Don't have account? <Link to="/Register">Register here</Link>
+      </p>
       <Footer/>
     </div>
   );
 };
 
 export default Login;
+

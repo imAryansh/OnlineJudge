@@ -58,10 +58,13 @@ const ProblemDetails = () => {
                 </div>
             </div>
             <div className="compiler-section">
-                <Compiler />
+            <Compiler problem={problem} />
             </div>
         </div>
     );
 };
 
 export default ProblemDetails;
+
+
+

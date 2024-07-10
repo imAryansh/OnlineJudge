@@ -65,6 +65,7 @@
   margin: 40px auto;
   display: flex;
   justify-content: space-around;
+  
 }
 
 .feature {
@@ -75,6 +76,7 @@
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
   flex: 1;
   margin: 0 10px;
+  cursor: pointer;
 }
 
 .feature h2 {

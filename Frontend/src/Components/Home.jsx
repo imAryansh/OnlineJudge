@@ -11,6 +11,10 @@ const Home = () => {
     navigate('/Register'); // Navigate to the Signup page
   };
 
+  const handlePracticeProblemsClick = () => {
+    navigate('/problems'); // Navigate to the Problems page
+  };
+
   return (
     <div className="home-container">
       <Header content="Welcome to the Online Judge" />
@@ -24,7 +28,7 @@ const Home = () => {
       </section>
 
       <section className="features-section">
-        <div className="feature">
+        <div className="feature" onClick={handlePracticeProblemsClick}>
           <h2>Practice Problems</h2>
           <p>Choose from a variety of coding challenges to improve your skills.</p>
         </div>
@@ -48,3 +52,7 @@ const Home = () => {
 }
 
 export default Home;
+
+
+
+

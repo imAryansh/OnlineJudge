@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import api from './api';
 import Header from './Header';
 import Footer from './Footer';
@@ -25,8 +25,8 @@ const Register = () => {
       setMessage(response.data.message);
       if (response.data.success) {
         localStorage.setItem('token', response.data.token);
-        alert(response.data.message); // Show alert before redirecting
-        navigate('/login'); // Redirect to login page
+        alert(response.data.message);
+        navigate('/login');
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
@@ -61,9 +61,15 @@ const Register = () => {
         <button type="submit">Register</button>
       </form>
       {message && <p>{message}</p>}
+      <p>
+        Already have an account? <Link to="/login">Login here</Link>
+      </p>
       <Footer />
     </div>
   );
 };
 
 export default Register;
+
+
+

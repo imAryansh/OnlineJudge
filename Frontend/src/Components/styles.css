@@ -137,4 +137,12 @@ body {
     white-space: pre-wrap;
 }
 
+.result.accepted {
+  color: green;
+}
+
+.result.rejected {
+  color: red;
+}
+
 

@@ -137,6 +137,7 @@ app.post("/api/problems", async (req, res) => {
     }
 });
 
+
 app.get("/api/problems", async (req, res) => {
     try {
         const problems = await Problem.find();
@@ -203,9 +204,7 @@ const compileCode = (language, code, input) => {
             return reject(err);
           }
   
-          // Execute the command
           exec(command, (error, stdout, stderr) => {
-            // Clean up the files
             if (fs.existsSync(sourceFile)) {
               fs.unlinkSync(sourceFile);
             }
@@ -217,6 +216,7 @@ const compileCode = (language, code, input) => {
             }
   
             if (error) {
+              console.error('Compilation or execution error:', stderr);
               return reject(new Error(stderr));
             }
             resolve(stdout);
@@ -225,7 +225,6 @@ const compileCode = (language, code, input) => {
       });
     });
   };
-  
 
   app.post('/compile', async (req, res) => {
     const { language, code, input } = req.body;
@@ -239,6 +238,50 @@ const compileCode = (language, code, input) => {
     }
   });
   
+const executeTestCases = async (language, code, testCases) => {
+  let results = [];
+
+  for (const testCase of testCases) {
+      const { input, expectedOutput } = testCase;
+      try {
+          const output = await compileCode(language, code, input);
+          results.push({
+              input,
+              expectedOutput,
+              output: output.trim(),
+              passed: output.trim() === expectedOutput.trim(),
+          });
+      } catch (error) {
+          results.push({
+              input,
+              expectedOutput,
+              output: error.message,
+              passed: false,
+          });
+      }
+  }
+
+  return results;
+};
+
+app.post("/submit", async (req, res) => {
+  const { language, code, problemId } = req.body;
+
+  try {
+      const problem = await Problem.findById(problemId);
+      if (!problem) {
+          return res.status(404).json({ message: "Problem not found" });
+      }
+
+      const results = await executeTestCases(language, code, problem.testCases);
+
+      res.json({ results });
+  } catch (error) {
+      console.error("Error during code submission:", error);
+      res.status(500).json({ message: "Error during code submission" });
+  }
+});
+
 
 app.listen(8000, () => {
     console.log("Server is listening on port 8000");
